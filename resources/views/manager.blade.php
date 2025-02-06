@@ -111,7 +111,6 @@
 </div>
 </body>
 @include('componentes.footer')
-<!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
