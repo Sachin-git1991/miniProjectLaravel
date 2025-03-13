@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\AdminModel;
+use Illuminate\Support\Facades\Validator;
 
-class AdminController extends Controller
+class ProductController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
+
         $products = Product::all();
     	return view('admin', compact('products'));
 
@@ -33,15 +39,38 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $new = new Product();
-    	$new->product_name = $request->prodect;
-    	$new->category = $request->category;
-        $new->brand = $request->brand;
-        $new->price = $request->price;
-        $new->unit_of_measurement = $request->unit_of_measurement;
-    	$new->save();
+        $validator = Validator::make($request->all(), [
 
-    	return response()->json("success");
+            'prodect' => 'required',
+            'category' => 'required',
+            'brand' => 'required',
+            'price' => 'required',
+            'unit_of_measurement' => 'required',
+
+
+        ]);
+
+        if($validator->fails()) {
+
+            return response()->json([
+
+                'error' => $validator->errors()->all()
+
+            ]);
+
+        }else{
+
+            $new = new Product();
+            $new->product_name = $request->prodect;
+            $new->category = $request->category;
+            $new->brand = $request->brand;
+            $new->price = $request->price;
+            $new->unit_of_measurement = $request->unit_of_measurement;
+            $new->save();
+
+            return response()->json("success");
+
+        }
     }
 
     /**

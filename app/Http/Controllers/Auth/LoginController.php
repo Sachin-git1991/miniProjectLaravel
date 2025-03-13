@@ -121,28 +121,12 @@ class LoginController extends Controller
                         $user = $results->fresh();
             
                         // return token, details with cookie
-                        if($results->roles == 1){
                             $value = array('id'=>$results->id,'name'=>$results->name,'email'=>$results->email,'roles'=>$results->roles);
                             Session::put('userDetails', $value);
                             Log::info('Admin Login Fucntion');
                             return response()->json(['roles'=>1]);
         
-        
-                        }else if($results->roles == 2){
-        
-                            $value = array('id'=>$results->id,'name'=>$results->name,'email'=>$results->email,'roles'=>$results->roles);
-                            Session::put('userDetails', $value);
-                            Log::info('Manager Login Fucntion');
-                            return response()->json(['roles'=>2]);
-        
-                        }else if($results->roles == 3){
-        
-                            $value = array('id'=>$results->id,'name'=>$results->name,'email'=>$results->email,'roles'=>$results->roles);
-                            Session::put('userDetails', $value);
-                            Log::info('User Login Fucntion');
-                            return response()->json(['roles'=>3]);
-        
-                        }   
+    
                     }
 
                 }else{

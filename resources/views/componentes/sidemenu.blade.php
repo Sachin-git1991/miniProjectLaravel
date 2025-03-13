@@ -33,6 +33,22 @@
     @endif  
     </li>
     <li class="nav-item">
+      <a href="{{ route('admin') }}" class="nav-link">
+        <i class="nav-icon far fa-share-square"></i>
+        <p>
+          Products
+        </p>
+      </a>
+    </li>  
+    <li class="nav-item">
+      <a href="{{ route('batch') }}" class="nav-link">
+        <i class="nav-icon far fa-share-square"></i>
+        <p>
+          Batch
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
       <a href="{{ route('logout') }}" class="nav-link">
         <i class="nav-icon far fa-share-square"></i>
         <p>

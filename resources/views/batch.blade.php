@@ -119,37 +119,32 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Prodect Details</h3>
+                <h3 class="card-title">Batch Details</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form id="product_details">
+              <form id="batch_details">
                 <div class="card-body">
-                  <input type="hidden" name="pid_id" id="pid_id">
+                  <input type="hidden" name="batch_id" id="batch_id">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Products</label>
-                    <input type="text" class="form-control" id="prodect" name="prodect" placeholder="Enter the prodect">
-                    <span id="prodect-error" class="text-danger"></span>
+                    <label for="exampleInputPassword1">Product Name</label>
+                    <select class="form-control" id="pud_id" name="pud_id">
+                        <option value="">Select Product</option>
+                        @foreach($product as $data)
+                            <option value="{{$data->id}}">{{$data->product_name}}</option>
+                        @endforeach
+                    </select>
+                    <span id="pud_id-error" class="text-danger"></span>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Category</label>
-                    <input type="text" class="form-control" id="category" name="category" placeholder="Enter the Category">
-                    <span id="category-error" class="text-danger"></span>
+                    <label for="exampleInputPassword1">Batch Name</label>
+                    <input type="text" class="form-control" id="batch_name" name="batch_name" placeholder="Enter the Brand Name" onkeypress="return onlyAlphabets(event,this);">
+                    <span id="batch_name-error" class="text-danger"></span>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Brand</label>
-                    <input type="text" class="form-control" id="brand" name="brand" placeholder="Enter the Brand">
-                    <span id="brand-error" class="text-danger"></span>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Price</label>
-                    <input type="text" class="form-control" id="price" name="price" placeholder="Enter the Price" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
-                    <span id="price-error" class="text-danger"></span>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Unit of measurement</label>
-                    <input type="text" class="form-control" id="unit_of_measurement" name="unit_of_measurement" placeholder="Enter the Unit of measurement" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
-                    <span id="unit_of_measurement-error" class="text-danger"></span>
+                    <label for="exampleInputPassword1">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter the Quantity">
+                    <span id="quantity-error" class="text-danger"></span>
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -174,7 +169,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Prodect Table</h1>
+            <h1>Batch Table</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -187,7 +182,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Prodect Details</h3>
+                <h3 class="card-title">Batch Details</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -195,37 +190,33 @@
                   <thead>
                   <tr>
                     <th>Sl No</th>
-                    <th>Products</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Unit of measurement</th>
+                    <th>Product Name</th>
+                    <th>Batch</th>
+                    <th>Quantity</th>
+                    <th>QR Code</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach($products as $data)
+                    @foreach($qrdetails as $data)
                     <tr>
-                      <td>{{ $loop->iteration  }}</td>
-                      <td>{{$data->product_name}}</td>
-                      <td>{{$data->category}}</td>
-                      <td>{{$data->brand}}</td>
-                      <td>{{$data->price}}</td>
-                      <td>{{$data->unit_of_measurement}}</td>
+                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ $data->product_name }}</td>
+                      <td>{{$data->batch_name}}</td>
+                      <td>{{$data->quantity}}</td>
+                      <td>{!! QrCode::size(100)->generate($data->quantity); !!}</td>
                       <td>
-                        <a href="javascript:void(0)" class="product_edit" data-id="{{$data->id}}">Edit</a> / <a href="javascript:void(0)" class="product_delete" data-id="{{$data->id}}">Delete</a>
+                        <a href="javascript:void(0)" class="batch_edit" data-id="{{$data->id}}">Edit</a> / <a href="javascript:void(0)" class="batch_delete" data-id="{{$data->id}}">Delete</a>
                       </td>
                     </tr>
                     @endforeach
                   </tbody>
                   <tfoot>
                   <tr>
-                  <th>Sl No</th>
-                    <th>Products</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Unit of measurement</th>
+                    <th>Sl No</th>
+                    <th>Product Name</th>
+                    <th>Batch</th>
+                    <th>Quantity</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>
@@ -268,71 +259,95 @@
 
     });
 
-    $("#product_details").submit(function(e){
+    $("#batch_details").submit(function(e){
 
-      e.preventDefault();
+        e.preventDefault();
 
-      $.ajax({
-
-          type:"POST",
-          dataType: "JSON",
-          url:"{{ route('product.store') }}",
-          data: $('form').serialize(),
-
-        success:function(res){
-
-          if($.isEmptyObject(res.error)){
-
-            if(res == "success"){
-              alert('Product Add Successfully');
-              setTimeout(function(){
-                  location.reload();
-              }, 2000);
-            }
-            else
-            {
-              alert('Product Not Deleted');
-              setTimeout(function(){
-                location.reload();
-              }, 3000);
-            }
-
-          }else{
-
-            $('#prodect-error').text(res.error[0]);
-            $('#category-error').text(res.error[1]);
-            $('#brand-error').text(res.error[2]);
-            $('#price-error').text(res.error[3]);
-            $('#unit_of_measurement-error').text(res.error[4]);
-            //printErrorMsg(data.error);
-
-          }
-
+        var id = $("#batch_id").val();
+        if(id == ''){
+            batch_url = "{{ route('batch.store') }}"
+        }else{
+            batch_url = "{{ route('batch.update') }}"
         }
 
-      });
+        $.ajax({
+
+            type:"POST",
+            dataType: "JSON",
+            url:batch_url,
+            data: $('form').serialize(),
+
+           success:function(res){
+
+            if($.isEmptyObject(res.error)){
+
+              if(res == "success"){
+                alert('Batch Add Successfully');
+                setTimeout(function(){
+                    location.reload();
+                }, 2000);
+              }
+              else
+              {
+                alert('Batch Not Deleted');
+                setTimeout(function(){
+                  location.reload();
+                }, 3000);
+              }
+
+            }else{
+
+              $('#pud_id-error').text(res.error[0]);
+              $('#batch_name-error').text(res.error[1]);
+              $('#quantity-error').text(res.error[2]);
+            //printErrorMsg(data.error);
+
+            }
+
+
+           }
+
+        });
 
     });
 
     $(document).ready(function() {
 
-      //js to delete an allowance
-      $('.product_delete').click(function(){
+      //js to edit an allowance
+      $('.batch_edit').click(function(event) {
         var id = $(this).attr('data-id');
         $.ajax({
           type:"GET",
-          url:"{{ route('product.delete') }}",
+          url:"{{ route('batch.edit') }}",
+          data:{ "id" : id },
+          success:function(res)
+          {
+            $('#batch_id').val(res['id']);
+            $('#pud_id').val(res['pud_id']);
+            $('#batch_name').val(res['batch_name']);
+            $('#quantity').val(res['quantity']);
+
+          }
+        });
+      });
+
+      //js to delete an allowance
+      $('.batch_delete').click(function(){
+        var id = $(this).attr('data-id');
+        $.ajax({
+          type:"GET",
+          url:"{{ route('batch.delete') }}",
           data:{'id' : id},
           success:function(res){
             if(res == 1){
-              alert('Product Deleted Successfully');
+              alert('Batch Deleted Successfully');
               setTimeout(function(){
                   location.reload();
               }, 2000);
             }
             else
             {
-              alert('Product Not Deleted');
+              alert('Batch Not Deleted');
               setTimeout(function(){
                 location.reload();
               }, 3000);
@@ -345,7 +360,7 @@
     });
 
     $(document).ready(function(){
-        $("#prodect").keypress(function(event){
+        $("#batch_name").keypress(function(event){
             var inputValue = event.charCode;
             if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)){
                 event.preventDefault();
@@ -353,22 +368,6 @@
         });
     });
 
-    $(document).ready(function(){
-        $("#category").keypress(function(event){
-            var inputValue = event.charCode;
-            if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)){
-                event.preventDefault();
-            }
-        });
-    });
 
-    $(document).ready(function(){
-        $("#brand").keypress(function(event){
-            var inputValue = event.charCode;
-            if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)){
-                event.preventDefault();
-            }
-        });
-    });
-    
+
 </script>

@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,12 +65,18 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
     Route::post('/registration', [RegisterController::class,'create'])->name('reg.create');
 
-    Route::get('/admin', [AdminController::class,'index'])->name('admin');
-
-    Route::get('/manager', [ManagerController::class,'index'])->name('manager');
-
-    Route::get('/user', [UserController::class,'index'])->name('user');
-
     Route::get('/logout', [LogoutController::class,'logout'])->name('logout');
+
+    Route::get('/products', [ProductController::class,'index'])->name('admin');
+    Route::post('', [ProductController::class,'store'])->name('product.store');
+    Route::get('/edit', [ProductController::class,'edit'])->name('product.edit');
+    Route::post('/update', [ProductController::class,'update'])->name('product.update');
+    Route::get('', [ProductController::class,'destroy'])->name('product.delete');
+
+    Route::get('/batch', [BatchController::class,'index'])->name('batch');
+    Route::post('/store', [BatchController::class,'store'])->name('batch.store');
+    Route::get('/edit', [BatchController::class,'edit'])->name('batch.edit');
+    Route::post('/update', [BatchController::class,'update'])->name('batch.update');
+    Route::get('/destroy', [BatchController::class,'destroy'])->name('batch.delete');
 
 });

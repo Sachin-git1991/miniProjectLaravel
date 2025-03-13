@@ -78,8 +78,6 @@ class RegisterController extends Controller
 
             'repassword' => 'required',
 
-            'roles' => 'required',
-
         ]);
 
         if ($validator->fails()) {
@@ -97,7 +95,6 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'repassword' => Hash::make($request->repassword),
-                'roles' => $request->roles,
             ]);
             return response()->json(['result'=>$result,'message' => 'REG Form submitted successfully!']);
 

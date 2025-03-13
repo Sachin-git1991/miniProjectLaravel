@@ -2,7 +2,7 @@
 <body class="hold-transition register-page">
     <div class="register-box">
     <div class="register-logo">
-        <a href="../../index2.html"><b>Mini</b>Project</a>
+        <a href="../../index2.html"><b>M</b>Shop</a>
     </div>
 
     <div class="card">
@@ -46,20 +46,6 @@
                 </div>
             </div>
             <span id="repassword-error" class="text-danger"></span>
-            <div class="input-group mb-3">
-                <select name="roles" id="roles" class="form-control">
-                    <option value="">Select Role</option>
-                    <option value="1">Admin</option>
-                    <option value="2">Manager</option>
-                    <option value="3">User</option>
-                </select>
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                    <span class="fas fa-user-circle"></span>
-                    </div>
-                </div>
-            </div>
-            <span id="roles-error" class="text-danger"></span>
             <div class="row">
                 <!-- /.col -->
                 <div class="col-4">

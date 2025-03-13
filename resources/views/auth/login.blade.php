@@ -85,14 +85,6 @@
 
                       window.location.href = "{{ route('admin')}}";
 
-                    }else if(data.roles == 2){
-
-                      window.location.href = "{{ route('manager')}}";
-
-                    }else if(data.roles == 3){
-
-                      window.location.href = "{{ route('user')}}";
-
                     }
                     
                 }else{
